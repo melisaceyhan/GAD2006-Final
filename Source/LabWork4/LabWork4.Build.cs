@@ -8,7 +8,7 @@ public class LabWork4 : ModuleRules
 	{
 		PCHUsage = PCHUsageMode.UseExplicitOrSharedPCHs;
 	
-		PublicDependencyModuleNames.AddRange(new string[] { "Core", "CoreUObject", "Engine", "InputCore" });
+		PublicDependencyModuleNames.AddRange(new string[] { "Core", "CoreUObject", "Engine", "InputCore", "HeadMountedDisplay", "Niagara", "AIModule", "NavigationSystem", "GameplayTasks", "UMG" });
 
 		PrivateDependencyModuleNames.AddRange(new string[] {  });
 
