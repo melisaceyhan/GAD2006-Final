@@ -16,3 +16,13 @@ struct FAttack
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	UAnimMontage* pAttackMontage;
 };
+
+
+USTRUCT(BlueprintType)
+struct FAttackStats
+{
+	GENERATED_BODY()
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	float sDamage;
+};
