@@ -34,5 +34,5 @@ public:
     void StopAttack(float a_fBlendOutTime, FName a_AttackName);
 
     // Check if actor is attacking
-    bool IsAttacking() const;
+    bool IsAttacking();
 };
