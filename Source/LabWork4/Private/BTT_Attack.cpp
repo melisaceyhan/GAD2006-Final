@@ -1,3 +1,4 @@
+#pragma once
 #include "BTT_Attack.h"
 #include "BehaviorTree/BlackboardComponent.h"
 #include "AIController.h"

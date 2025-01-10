@@ -1,10 +1,8 @@
-// Fill out your copyright notice in the Description page of Project Settings.
-
-
 #include "BTT_ChasePlayer.h"
 #include "BehaviorTree/BlackboardComponent.h"
 #include "Runtime/NavigationSystem/Public/NavigationSystem.h"
 #include "AIController.h"
+#include "CombatComponent.h"  
 #include "Kismet/GameplayStatics.h"
 
 UBTT_ChasePlayer::UBTT_ChasePlayer(FObjectInitializer const& a_pObjectInit)
@@ -19,19 +17,39 @@ EBTNodeResult::Type UBTT_ChasePlayer::ExecuteTask(UBehaviorTreeComponent& a_pTre
 
     if (pNavSystem)
     {
+        // Get AI controller from behavior tree component
+        AAIController* pAIController = a_pTreeComp.GetAIOwner();
+
         // Get blackboard from AI controller
         UBlackboardComponent* pBlackboard = Cast<UBlackboardComponent>(
-            a_pTreeComp.GetAIOwner()->GetComponentByClass(UBlackboardComponent::StaticClass())
+            pAIController->GetComponentByClass(UBlackboardComponent::StaticClass())
         );
 
-        // Get location of the player
-        FVector pLocation = pBlackboard->GetValueAsVector(GetSelectedBlackboardKey());
+        if (!pBlackboard)
+        {
+            return EBTNodeResult::Failed; // Return failure if blackboard is not found
+        }
 
-        // Tell the AI to move towards player
-        a_pTreeComp.GetAIOwner()->MoveToLocation(pLocation);
+        // Get the CombatComponent attached to the AI's pawn
+        UCombatComponent* pCombatComp = pAIController->GetPawn()->FindComponentByClass<UCombatComponent>();
+
+        // Check if CombatComponent exists and the AI is not dying, staggered, or attacking
+        if (pCombatComp && !pCombatComp->IsDying() && !pCombatComp->IsStaggered() && !pCombatComp->IsAttacking())
+        {
+            // Get the player location from the blackboard
+            FVector pLocation = pBlackboard->GetValueAsVector(GetSelectedBlackboardKey());
+
+            // Command AI to move to player's location
+            pAIController->MoveToLocation(pLocation);
+        }
+        else
+        {
+            // If conditions are not met, return failure
+            return EBTNodeResult::Failed;
+        }
     }
 
-    // Finish execution
+    // If everything is good, finish the task with success
     FinishLatentTask(a_pTreeComp, EBTNodeResult::Succeeded);
 
     return EBTNodeResult::Succeeded;
