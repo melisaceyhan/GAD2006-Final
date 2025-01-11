@@ -10,13 +10,13 @@
 #include "NetAvatar.generated.h"
 
 /**
- * 
+ *
  */
 UCLASS()
 class ANetAvatar : public ANetBaseCharacter
 {
 	GENERATED_BODY()
-	
+
 public:
 
 	ANetAvatar();

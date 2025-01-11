@@ -4,7 +4,7 @@
 #include "NetAvatar.h"
 #include "GameFramework/CharacterMovementComponent.h"
 
-ANetAvatar::ANetAvatar():
+ANetAvatar::ANetAvatar() :
 	RunningSpeed(6000.0f),
 	WalkingSpeed(30.0f),
 	bIsRunning(false)
@@ -111,7 +111,3 @@ void ANetAvatar::OnRep_IsRunning()
 		GetCharacterMovement()->MaxWalkSpeed = WalkingSpeed;
 	}
 }
-
-
-
-
